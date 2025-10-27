@@ -134,7 +134,7 @@ CAPTCHA, short for "Completely Automated Public Turing test to tell Computers an
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\linewidth]{resources/bots}
-\caption{A graph of global internet traffic over recent years [1]}
+\caption{A graph of global internet traffic over recent years \cite{independent}}
 \label{fig:bots}
 \end{figure}
 
@@ -151,9 +151,9 @@ This paper reviews the extent to which AI models are capable of bypassing modern
 \subsection{Origin of CAPTCHAs}
 \label{sec:background-captcha}
 
-The term CAPTCHA was first conceived by Luis von Ahn et al. [2] in the early 2000's to describe a form of Turing test for the purpose of preventing spam and bot attacks on the Internet. The Turing test was originally designed by Alan Turing to assess machine intelligence by evaluating its ability to mimic human intelligence [3]. In the Turing test, a human evaluator holds a conversation with a machine and a human simultaneously, with the goal of identifying which is the human and which is the machine. According to Turing, if the machine is able to fool the evaluator, then it demonstrates an ability to exhibit intelligence similar to that of a human.
+The term CAPTCHA was first conceived by Luis von Ahn et al. \cite{captcha} in the early 2000's to describe a form of Turing test for the purpose of preventing spam and bot attacks on the Internet. The Turing test was originally designed by Alan Turing to assess machine intelligence by evaluating its ability to mimic human intelligence \cite{turing}. In the Turing test, a human evaluator holds a conversation with a machine and a human simultaneously, with the goal of identifying which is the human and which is the machine. According to Turing, if the machine is able to fool the evaluator, then it demonstrates an ability to exhibit intelligence similar to that of a human.
 
-A CAPTCHA is slightly different from a Turing test in that, rather than a human evaluator and two participants, the test is administered automatically by a machine and taken by a single participant who may be a human or a bot. According to Luis von Ahn et al., ``A CAPTCHA is a cryptographic protocol whose underlying hardness assumption is based on an AI problem'' [2]. In order for a CAPTCHA program to be effective, it must be able to grade and provide tests that cannot be passed by current AI models, but are easy for humans to solve. The developers of CAPTCHA believed that, if a CAPTCHA challenge is successfully broken by AI, it ``implies a win-win situation'' because ``a useful AI problem is solved,'' further advancing the field.
+A CAPTCHA is slightly different from a Turing test in that, rather than a human evaluator and two participants, the test is administered automatically by a machine and taken by a single participant who may be a human or a bot. According to Luis von Ahn et al., ``A CAPTCHA is a cryptographic protocol whose underlying hardness assumption is based on an AI problem'' \cite{captcha}. In order for a CAPTCHA program to be effective, it must be able to grade and provide tests that cannot be passed by current AI models, but are easy for humans to solve. The developers of CAPTCHA believed that, if a CAPTCHA challenge is successfully broken by AI, it ``implies a win-win situation'' because ``a useful AI problem is solved,'' further advancing the field.
 
 \begin{figure}[h]
 \centering
@@ -162,7 +162,7 @@ A CAPTCHA is slightly different from a Turing test in that, rather than a human 
 \label{fig:v1}
 \end{figure}
 
-Many such tests have been developed and used widely on the Internet over the past two decades. A well-known example is the first iteration of reCAPTCHA, known as reCAPTCHA v1. This type of CAPTCHA challenge is text-based, requiring the participant to transcribe a short string of text deemed difficult or impossible for machines to read, as shown in Figure \ref{fig:v1}. The text is often manipulated to further obscure from more sophisticated models, via warping, rotating, scaling, or the addition of random noise [4]. ReCAPTCHA v1 was deprecated in 2018, as the degree of complexity required to make it effective became too great, placing an unnecessary burden on human participants that defeated the purpose of CAPTCHA.
+Many such tests have been developed and used widely on the Internet over the past two decades. A well-known example is the first iteration of reCAPTCHA, known as reCAPTCHA v1. This type of CAPTCHA challenge is text-based, requiring the participant to transcribe a short string of text deemed difficult or impossible for machines to read, as shown in Figure \ref{fig:v1}. The text is often manipulated to further obscure from more sophisticated models, via warping, rotating, scaling, or the addition of random noise \cite{recaptcha}. ReCAPTCHA v1 was deprecated in 2018, as the degree of complexity required to make it effective became too great, placing an unnecessary burden on human participants that defeated the purpose of CAPTCHA.
 
 Since the development of these text-based CAPTCHAs, other types of challenges have dominated the web. In particular, the later versions of reCAPTCHA provide more sophisticated means of assessing participants while reducing friction for users. reCAPTCHA v2 and v3 simply "test" the participant by collecting hidden metrics about browser activity, discussed further in section \ref{sec:metrics}. If the participant is scored to be a potential risk, they may be asked to solve another challenge, such as an image labeling problem, described in section \ref{sec:visual}.
 
@@ -205,28 +205,37 @@ Image labeling CAPTCHA challenges are easily defeated by CNNs, (...), \textbf{(t
 
 \todo[inline, color=pink]{I think I will need to find better sources on reCAPTCHA v2 in particular, or just drop it from the paper entirely. I'm struggling with narrowing down my sources on this part to ones that specifically discuss the Google Street View type of image CAPTCHA and instead either focus on text-based ones or different computer vision problems, which isn't really helping to follow this flow.}
 
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=0.5\linewidth]{resources/v2.jpg}
+%\caption{An example of a CAPTCHA using Google Street View}
+%\label{fig:v2}
+%\end{figure}
+% I really want to add this figure as an example here but the project refuses to compile if I try to include it.
+
+
 \subsection{Behavioral Metrics}
 \label{sec:metrics}
 
-Google's reCAPTCHA v2, first implemented in 2013, was the first tool to introduce an "invisible" CAPTCHA, a type of verification challenge that did not explicitly ask the user to solve a challenge to measure intelligence, but purely operated in the background and scored users based on browsing habits. This has been expanded on with reCAPTCHA v3, released in 2017. The tool regularly collects data as the user browses the web, returning a score ranging from 0 (highly likely to be a bot) to 1 (likely a human). While this type of challenge has been praised for reducing tedium resulting from CAPTCHA challenges for real users, many have criticized it for intruding on user privacy [5]. \todo[inline, color=pink]{Not sure how relevant this last sentence is, or where to include it.} 
+Google's reCAPTCHA v2, first implemented in 2013, was the first tool to introduce an "invisible" CAPTCHA, a type of verification challenge that did not explicitly ask the user to solve a challenge to measure intelligence, but purely operated in the background and scored users based on browsing habits. This has been expanded on with reCAPTCHA v3, released in 2017. The tool regularly collects data as the user browses the web, returning a score ranging from 0 (highly likely to be a bot) to 1 (likely a human). While this type of challenge has been praised for reducing tedium resulting from CAPTCHA challenges for real users, many have criticized it for intruding on user privacy. \todo[inline, color=pink]{Not sure how relevant this last sentence is, or where to include it.} 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\linewidth]{resources/v3-workflow}
-\caption{reCAPTCHA v3 verification workflow, adapted from [6]}
+\caption{reCAPTCHA v3 verification workflow \cite{tsingen}}
 \label{fig:v3}
 \end{figure}
 
-ReCAPTCHA v3 differs from v2's "invisible" challenge in that the user is never asked to check a box, but rather, it collects user data over time, and verification occurs either when the user clicks a button on a website that is bound to v3, or automatically invoked through some other action taken by the user. This verification is done through generating an encrypted token on the website's back end that contains the necessary metrics. This token is then sent to Google's servers, which return a response containing the user's score, whereupon the website can programmatically decide which actions to take. Figure \ref{fig:v3} illustrates this process in detail [6].
+ReCAPTCHA v3 differs from v2's "invisible" challenge in that the user is never asked to check a box, but rather, it collects user data over time, and verification occurs either when the user clicks a button on a website that is bound to v3, or automatically invoked through some other action taken by the user. This verification is done through generating an encrypted token on the website's back end that contains the necessary metrics. This token is then sent to Google's servers, which return a response containing the user's score, whereupon the website can programmatically decide which actions to take. Figure \ref{fig:v3} illustrates this process in detail \cite{tsingen}.
 
-Since reCAPTCHA v3 is proprietary, not much is known about exactly which metrics the tool collects, or how they contribute to the overall score. Additionally, keeping this information confidential is important to protecting the security of the software, as knowledge of it could theoretically be used to engineer a perfectly undetectable bot. However, Tsingenopoulos et al. [6] identified, through analysis of the obfuscated source code, that a few of the main factors contributing to the score may include mouse movements, keyboard inputs and timings, and the presence of cookies on the browser. The researchers further note that ``security by obscurity is a fundamentally flawed approach,'' a common idiom in cryptography.
+Since reCAPTCHA v3 is proprietary, not much is known about exactly which metrics the tool collects, or how they contribute to the overall score. Additionally, keeping this information confidential is important to protecting the security of the software, as knowledge of it could theoretically be used to engineer a perfectly undetectable bot. However, Tsingenopoulos et al. \cite{tsingen} identified, through analysis of the obfuscated source code, that a few of the main factors contributing to the score may include mouse movements, keyboard inputs and timings, and the presence of cookies on the browser. The researchers further note that ``security by obscurity is a fundamentally flawed approach,'' a common idiom in cryptography.
 
 \todo[inline, color=pink]{Again, I would like to insert this last sentence somewhere but doesn't really feel like a good spot exists.}
 
 \section{Breaking Current CAPTCHA Schemes}
 \label{sec:breaking}
 
-The reCAPTCHA challenges discussed in section \ref{sec:modern-captchas} are highly imperfect, and prone to attacks by well-constructed artificial intelligence models. This section will focus specifically on the work by \textbf{(??? for section \ref{sec:v2})} and Tsingenopoulos et al. [6] to expose security vulnerabilities in the most widely used CAPTCHA schemes today.
+The reCAPTCHA challenges discussed in section \ref{sec:modern-captchas} are highly imperfect, and prone to attacks by well-constructed artificial intelligence models. This section will focus specifically on the work by \textbf{(??? for section \ref{sec:v2})} and Tsingenopoulos et al. \cite{tsingen} to expose security vulnerabilities in the most widely used CAPTCHA schemes today.
 
 \subsection{reCAPTCHA v2 and CNNs}
 \label{sec:v2}
@@ -242,6 +251,8 @@ The reCAPTCHA challenges discussed in section \ref{sec:modern-captchas} are high
 
 \section{Conclusion}
 
+\todo[inline, color=pink]{At this point I'm struggling to produce more content for the paper. This is a mixture of being burnt out and not fully understanding the material yet, so I will submit what I have and be done with it. Apologies that I keep consistently submitting work that just barely meets the requirements.}
+
 
 \begin{acks}
 I sincerely thank Dr. Elena Machkasova for her invaluable work in not only instructing the fall 2025 senior seminar course, but also guiding me through the writing process and helping me stay motivated during this challenging semester. I also thank the University of Minnesota Morris for providing me the opportunity to conduct this literature review and present my work to my peers.
@@ -251,7 +262,7 @@ I sincerely thank Dr. Elena Machkasova for her invaluable work in not only instr
 %% The next two lines define the bibliography style to be used, and
 %% the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{sources}
+\bibliography{bibfile}
 
 
 \end{document}
