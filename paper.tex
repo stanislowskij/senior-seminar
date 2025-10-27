@@ -199,7 +199,11 @@ As mentioned in section \ref{sec:background-captcha}, modern versions of reCAPTC
 \subsection{Image Labeling}
 \label{sec:visual}
 
-\todo[inline, color=pink]{This section will mainly focus on reCAPTCHA v2.}
+Though less commonly used now, image labeling CAPTCHAs are featured in reCAPTCHA v2, designed for accessibility on mobile browsers as an alternative to the previous text challenges. In these challenges, the user is typically presented with a single image split into multiple segments, and must identify the segments of the image that constitute a particular object, such as a stop light or a car. Alternatively, the challenge may contain several individual images of objects, presenting the user with the same prompt. 
+
+Image labeling CAPTCHA challenges are easily defeated by CNNs, (...), \textbf{(there will be more information here about how reCAPTCHA v2 still largely relies on metrics collected from user input rather than strictly from successfully identifying image contents, as this is important to discussing flaws of the research and may form a case for CAPTCHA still being secure by combining methods)}
+
+\todo[inline, color=pink]{I think I will need to find better sources on reCAPTCHA v2 in particular, or just drop it from the paper entirely. I'm struggling with narrowing down my sources on this part to ones that specifically discuss the Google Street View type of image CAPTCHA and instead either focus on text-based ones or different computer vision problems, which isn't really helping to follow this flow.}
 
 \subsection{Behavioral Metrics}
 \label{sec:metrics}
@@ -215,16 +219,24 @@ Google's reCAPTCHA v2, first implemented in 2013, was the first tool to introduc
 
 ReCAPTCHA v3 differs from v2's "invisible" challenge in that the user is never asked to check a box, but rather, it collects user data over time, and verification occurs either when the user clicks a button on a website that is bound to v3, or automatically invoked through some other action taken by the user. This verification is done through generating an encrypted token on the website's back end that contains the necessary metrics. This token is then sent to Google's servers, which return a response containing the user's score, whereupon the website can programmatically decide which actions to take. Figure \ref{fig:v3} illustrates this process in detail [6].
 
-Since reCAPTCHA v3 is proprietary, not much is known about exactly which metrics the tool collects, or how they contribute to the overall score. Additionally, keeping this information confidential is important to protecting the security of the software, as knowledge of it could theoretically be used to engineer a perfectly undetectable bot. However, Tsingenopoulos et al. [6] identified, through analysis of some source code, 
+Since reCAPTCHA v3 is proprietary, not much is known about exactly which metrics the tool collects, or how they contribute to the overall score. Additionally, keeping this information confidential is important to protecting the security of the software, as knowledge of it could theoretically be used to engineer a perfectly undetectable bot. However, Tsingenopoulos et al. [6] identified, through analysis of the obfuscated source code, that a few of the main factors contributing to the score may include mouse movements, keyboard inputs and timings, and the presence of cookies on the browser. The researchers further note that ``security by obscurity is a fundamentally flawed approach,'' a common idiom in cryptography.
 
-\section{Breaking reCAPTCHA}
-\label{sec:bypassing}
+\todo[inline, color=pink]{Again, I would like to insert this last sentence somewhere but doesn't really feel like a good spot exists.}
+
+\section{Breaking Current CAPTCHA Schemes}
+\label{sec:breaking}
+
+The reCAPTCHA challenges discussed in section \ref{sec:modern-captchas} are highly imperfect, and prone to attacks by well-constructed artificial intelligence models. This section will focus specifically on the work by \textbf{(??? for section \ref{sec:v2})} and Tsingenopoulos et al. [6] to expose security vulnerabilities in the most widely used CAPTCHA schemes today.
 
 \subsection{reCAPTCHA v2 and CNNs}
 \label{sec:v2}
 
+\todo[inline, color=pink]{I hope to show here that convolutional neural networks are good enough at computer vision problems to complete image CAPTCHA challenges, particularly those associated with reCAPTCHA v2. It may be fine if I have to pivot here, but would make the story a bit less cohesive.}
+
 \subsection{reCAPTCHA v3 and RL}
 \label{sec:v3}
+
+\todo[inline, color=pink]{Heavily focused on the methods of Tsingenopoulos et al. but need to read more on this and finish the section on reinforcement learning. May also be worth going over in a meeting.}
 
 \section{Proposals to Improve CAPTCHAs}
 
