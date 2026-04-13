@@ -1,6 +1,6 @@
 # Assessing Flaws in CAPTCHA Security through Progress in AI
 
-This repository contains the materials for my senior seminar project in computer science. It includes the final paper as published in December 2025 and slideshow as presented in November 2025. This project was the culmination of my studies at University of Minnesota Morris, and was the final step in obtaining my B.A. in Computer Science (expected May 2026). The presentation can be found [here](/slides/slides.pdf), and the final paper is [here](/seminar-paper-final.pdf).
+This repository contains the materials for my senior seminar project in computer science. It includes the final paper as published in December 2025 and slideshow as presented in November 2025. This project was the culmination of my studies at University of Minnesota Morris, and was the final step in obtaining my B.A. in Computer Science (expected May 2026). The presentation can be found [here](/slides/seminar-slides-final.pdf), and the final paper is [here](/seminar-paper-final.pdf).
 
 The focus of my seminar topic is the role of CAPTCHAs in modern web security. In particular, I focus on [recent research](https://ieeexplore.ieee.org/document/9797367) by Ilias Tsingenopoulos et al. demonstrating that modern CAPTCHA tools which use metric-based fingerprinting techniques, such as Google's reCAPTCHA v3, are ineffective tools for blocking malicious automated web traffic, proven via novel reinforcement learning techniques.
 
