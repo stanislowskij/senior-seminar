@@ -1,33 +1,9 @@
-%%
-%% This is file `sample-sigplan.tex',
-%% generated with the docstrip utility.
-%%
-%% The original source files were:
-%%
-%% samples.dtx  (with options: `sigplan')
-%% 
-%% IMPORTANT NOTICE:
-%% 
-%% For the copyright see the source file.
-%% 
-%% Any modified versions of this file must be renamed
-%% with new filenames distinct from sample-sigplan.tex.
-%% 
-%% For distribution of the original source see the terms
-%% for copying and modification in the file samples.dtx.
-%% 
-%% This generated file may be distributed as long as the
-%% original source files, as listed above, are part of the
-%% same distribution. (The sources need not necessarily be
-%% in the same archive or directory.)
-%%
-%% The first command in your LaTeX source must be the \documentclass command.
 \DocumentMetadata{
   lang=en,
   pdfversion=2.0,
   %pdfstandard=ua-2,
   %testphase={phase-III,firstaid,math,title}
-  tagging=on,
+  tagging=off,
   testphase={phase-III,firstaid,math,title}
   %tagging-setup={math/setup=mathml-SE}
 }
@@ -40,54 +16,18 @@
     modifier={by-nc-sa},
     version={4.0},
 ]{doclicense}
-%% NOTE that a single column version is required for 
-%% submission and peer review. This can be done by changing
-%% the \doucmentclass[...]{acmart} in this template to 
-%% \documentclass[manuscript,screen,review]{acmart}
-%% 
-%% To ensure 100% compatibility, please check the white list of
-%% approved LaTeX packages to be used with the Master Article Template at
-%% https://www.acm.org/publications/taps/whitelist-of-latex-packages 
-%% before creating your document. The white list page provides 
-%% information on how to submit additional LaTeX packages for 
-%% review and adoption.
-%% Fonts used in the template cannot be substituted; margin 
-%% adjustments are not allowed.
-%%
-%% \BibTeX command to typeset BibTeX logo in the docs
-\AtBeginDocument{%
-  \providecommand\BibTeX{{%
+
+\AtBeginDocument{
+  \providecommand\BibTeX{{
     \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
 
-
-
-
-
-
-
-
-
-
-
-
-%%
-%% end of the preamble, start of the body of the document source.
 \begin{document}
 
-%%
-%% The "title" command has an optional parameter,
-%% allowing the author to define a "short title" to be used in page headers.
 \title{Assessing Flaws in CAPTCHA Security through Progress in AI}
 
-%%
-%% The "author" command and its associated commands are used to define
-%% the authors and their affiliations.
-%% Of note is the shared affiliation of the first two authors, and the
-%% "authornote" and "authornotemark" commands
-%% used to denote shared contribution to the research.
 \author{Jaydon A. Stanislowski}
 \email{stani152@morris.umn.edu}
-\affiliation{%
+\affiliation{
   \institution{Division of Science and Mathematics 
 	\\
         University of Minnesota, Morris
@@ -95,129 +35,99 @@
   \city{Morris}
   \state{Minnesota}
   \country{USA}
-  \postcode{56267}
 }
 
-%%
-%% By default, the full list of authors will be used in the page
-%% headers. Often, this list is too long, and will overlap
-%% other information printed in the page headers. This command allows
-%% the author to define a more concise list
-%% of authors' names for this purpose.
-%\renewcommand{\shortauthors}{Trovato and Tobin, et al.}
-
-%%
-%% The abstract is a short summary of the work to be presented in the
-%% article.
 \begin{abstract}
-Turing tests are widely employed on the Internet in the form of CAPTCHAs, short challenges designed to identify and prevent artificial web traffic. This technology is important for web security as a whole, and yet, as computational models become more sophisticated, its effectiveness only wanes. In this paper, we examine recent research on the growing threat to CAPTCHA security, in particular, the widely-used reCAPTCHA v2 and v3, and explore proposals to reinforce it against future attacks.
+Protecting the internet from the threat of malicious bot activity is an important problem as AI tools become more powerful and commonplace over time. To that end, security measures are employed across websites in the form of CAPTCHAs, short challenges designed to identify and block fake web traffic. Yet, they become less effective over time as AI becomes more powerful, and thus more capable of solving them. This paper examines recent research on the threat to CAPTCHA security posed by current AI models and how this security can be reinforced over time, focusing primarily on Google's reCAPTCHA v3.
 \end{abstract}
 
 \doclicenseThis
 
-%%
-%% Keywords. The author(s) should pick words that accurately describe
-%% the work being presented. Separate the keywords with commas.
-\keywords{CAPTCHA, reCAPTCHA, Turing test, artificial intelligence, neural networks, reinforcement learning, internet, security}
+\keywords{CAPTCHA, reCAPTCHA, Turing test, artificial intelligence, reinforcement learning, internet, security}
 
-
-%%
-%% This command processes the author and affiliation and title
-%% information and builds the first part of the formatted document.
 \maketitle
 
 \section{Introduction}
 \label{sec:introduction}
 
-CAPTCHA, short for "Completely Automated Public Turing test to tell Computers and Humans Apart," is one of the most widely used security tools on the modern Internet, created to help mitigate bot traffic on websites. Maintaining the reliability of such tools is essential, as they defend millions of websites from spam, web scraping, credential stuffing (a type of attack against user login info that involves automatically testing several common or recycled passwords), and fake users pretending to be human actors.
+CAPTCHAs, short for ``Completely Automated Public Turing tests to tell Computers and Humans Apart,'' are some of the most widely used security tools on the modern Internet, created to assist in preventing malicious bots on websites. Maintaining the reliability of these tools is important, since they defend millions of websites from a wide variety of threats, such as fake account creation, spam, extortion, web scraping, and credential stuffing\footnote{An attack in which hackers gather databases of leaked user credentials and attempt to log into user accounts by setting up a bot to automatically test large batches of login information.}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\linewidth]{resources/bots}
-\caption{A graph of global internet traffic over recent years \cite{independent}}
+\includegraphics[width=\linewidth]{resources/bots}
+\caption{Area chart depicting the rise in artificial web traffic from 2015 to 2024 \cite{independent}, adapted from \cite{imperva}}
 \label{fig:bots}
 \end{figure}
 
-\todo[inline, color=pink]{I don't really know if there's a better way to cite this in-line. This graph comes from an article by The Independent, but the data itself is from the 2025 Imperva Bad Bot Report.}
+In recent years, web traffic from malicious bots has increased substantially. Experts from cybersecurity company Imperva estimated that bots accounted for over half of all web traffic in 2024. The study distinguished ``good bots,'' created to assist with tasks such as search indexing and site monitoring, from ``bad bots,'' designed for harmful motives. These bad bots accounted for 37\% of web traffic in 2024, while just 14\% was produced by good bots, as shown in Figure \ref{fig:bots}.
 
-In recent years, malicious artificial web traffic has increased substantially, with experts believing that bots accounted for over half of all web traffic in 2024, as shown in Figure \ref{fig:bots}. As AI technology has evolved over the years, so has the capacity for machines to simulate human intelligence, thereby bypassing security measures designed to impede them. AI models are now capable of performing a broad range of tasks previously thought to only be possible for humans to complete, further redefining what it takes to differentiate a computer from a real person. The increasingly sophisticated nature of these models poses a threat to the safety of the web as a whole, and yet, CAPTCHA development is seemingly unable to keep up.
+As AI tools have evolved over time, so has their ability to simulate human behaviors often assessed by CAPTCHA challenges, making it easier to bypass their security. As a result, there is a clear need to assess the extent to which AI poses a threat to CAPTCHA tools. Recent research appears to show that current CAPTCHA tools may be ineffective for addressing this threat.
 
-This paper reviews the extent to which AI models are capable of bypassing modern CAPTCHA security, primarily focusing on the development of Google's reCAPTCHA as a case study. We will explain the computational models used in recent research to complete the tasks required by the most widely used CAPTCHAs today, and it will evaluate how successful the models are in this goal. The paper will also discuss predictions for how the threat to the Internet may grow with time, and explore recent proposals to improve existing tools to reinforce CAPTCHA security.
- 
+This paper reviews the extent to which AI models are capable of evading modern CAPTCHA security, primarily focusing on vulnerabilities in Google's reCAPTCHA v3 found by Tsingenopoulos et al. \cite{tsingen} as a case study. ReCAPTCHA v3 is widely used today and may provide insights into other CAPTCHA tools that behave similarly. Over one million websites as of September 2025 use reCAPTCHA v3, including X (formerly Twitter), GitHub, and StackOverflow, according to BuiltWith \cite{built-with}. In the rest of this paper, Section \ref{sec:captcha-history} provides a general background of CAPTCHA's origins and how it has changed over time. Sections \ref{sec:reinforcement-learning} and \ref{sec:recaptcha-v3} respectively introduce reinforcement learning and reCAPTCHA v3, to discuss the research behind v3's security concerns in Section \ref{sec:breaking}. Finally, Section \ref{sec:analysis} considers the study in the context of CAPTCHA security as a whole, followed by a conclusion.
 
-\section{Background}
-\label{background}
+\section{CAPTCHA History}
+\label{sec:captcha-history}
 
 \subsection{Origin of CAPTCHAs}
-\label{sec:background-captcha}
+\label{sec:origin-of-captchas}
 
-The term CAPTCHA was first conceived by Luis von Ahn et al. \cite{captcha} in the early 2000's to describe a form of Turing test for the purpose of preventing spam and bot attacks on the Internet. The Turing test was originally designed by Alan Turing to assess machine intelligence by evaluating its ability to mimic human intelligence \cite{turing}. In the Turing test, a human evaluator holds a conversation with a machine and a human simultaneously, with the goal of identifying which is the human and which is the machine. According to Turing, if the machine is able to fool the evaluator, then it demonstrates an ability to exhibit intelligence similar to that of a human.
+The term CAPTCHA was first conceived by Luis von Ahn et al. \cite{von-ahn} in the early 2000s to describe a form of Turing test for the purpose of preventing spam and bot attacks on the Internet. The Turing test was originally designed by Alan Turing to assess machine intelligence by evaluating its ability to mimic prominent qualities of human intelligence \cite{turing}. In the Turing test, a human evaluator holds a conversation with a machine and a human simultaneously, with the goal of identifying which is the human and which is the machine. According to Turing, if the machine is able to fool the evaluator, then it demonstrates intelligence similar to that of a human, since it can replicate qualities associated with this.
 
-A CAPTCHA is slightly different from a Turing test in that, rather than a human evaluator and two participants, the test is administered automatically by a machine and taken by a single participant who may be a human or a bot. According to Luis von Ahn et al., ``A CAPTCHA is a cryptographic protocol whose underlying hardness assumption is based on an AI problem'' \cite{captcha}. In order for a CAPTCHA program to be effective, it must be able to grade and provide tests that cannot be passed by current AI models, but are easy for humans to solve. The developers of CAPTCHA believed that, if a CAPTCHA challenge is successfully broken by AI, it ``implies a win-win situation'' because ``a useful AI problem is solved,'' further advancing the field.
+A CAPTCHA is a variation of the Turing test. Rather than strictly focusing on natural language processing, CAPTCHAs address problems that are hard for AI models as a whole. This includes, but is not limited to tasks such as spatial reasoning, image recognition, and text/audio transcription. Because CAPTCHAs are automated, they are not administered by a human evaluator. Instead, the test is provided automatically by a machine and taken by a single participant who may be a human or a bot. The underlying assumption of CAPTCHA security is that it is based on the difficulty for AI to solve certain problems, similarly to how typical crytographic protocols rely on the computational complexity of certain mathematical problems \cite{von-ahn}. 
+
+In order for a CAPTCHA program to be effective, it must be able to provide and grade tests that cannot be passed by current AI models, but are easy for humans to solve. Furthermore, CAPTCHAs are secondarily designed to be a metric for the growth of artificial intelligence. Von Ahn et al. believed that, if a CAPTCHA challenge is successfully solved by an AI model with considerable consistency, it indicates that a useful AI problem has been solved, and a new type of CAPTCHA challenge must be administered \cite{von-ahn}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\linewidth]{resources/v1}
-\caption{An example of a reCAPTCHA v1 challenge}
+\caption{An example of a reCAPTCHA v1 challenge. The challenge text reads ``Levelers'' and ``critics.''}
 \label{fig:v1}
 \end{figure}
 
-Many such tests have been developed and used widely on the Internet over the past two decades. A well-known example is the first iteration of reCAPTCHA, known as reCAPTCHA v1. This type of CAPTCHA challenge is text-based, requiring the participant to transcribe a short string of text deemed difficult or impossible for machines to read, as shown in Figure \ref{fig:v1}. The text is often manipulated to further obscure from more sophisticated models, via warping, rotating, scaling, or the addition of random noise \cite{recaptcha}. ReCAPTCHA v1 was deprecated in 2018, as the degree of complexity required to make it effective became too great, placing an unnecessary burden on human participants that defeated the purpose of CAPTCHA.
+\subsection{Text-based CAPTCHAs}
+\label{sec:text-based-captchas}
 
-Since the development of these text-based CAPTCHAs, other types of challenges have dominated the web. In particular, the later versions of reCAPTCHA provide more sophisticated means of assessing participants while reducing friction for users. reCAPTCHA v2 and v3 simply "test" the participant by collecting hidden metrics about browser activity, discussed further in section \ref{sec:metrics}. If the participant is scored to be a potential risk, they may be asked to solve another challenge, such as an image labeling problem, described in section \ref{sec:visual}.
+Many implementations of CAPTCHA have been developed and used widely on the Internet over the past two decades. The earliest form of CAPTCHA was text-based, with one of the most well-known examples being the first version of reCAPTCHA, developed by Luis von Ahn and others \cite{recaptcha} in 2007, then acquired by Google in 2009. ReCAPTCHA v1 poses a challenge requiring the participant to transcribe a short string of text deemed difficult or impossible for machines to read, as shown in Figure \ref{fig:v1}. The text is often manipulated to further obscure from more sophisticated models, via warping, rotating, scaling, or the addition of random noise. 
 
-Today, CAPTCHA challenges that analyze browser data have largely replaced both text- and image-based CAPTCHAs, although many websites still use image labeling challenges as a complete alternative or a second check should a user fail the former challenge. Despite the seeming effectiveness of combining these challenges, they are independently quite insecure, as discussed in section \ref{sec:bypassing}.
+Text-based challenges are no longer considered useful as a security measure, since they are easily bypassed by models trained against them. In particular, \textit{convolutional neural networks} (CNNs) are effective at breaking text-based CAPTCHAs, since they are a type of neural network, a machine learning model inspired by how biological neurons learn. CNNs also operate on multi-dimensional data, such as images and videos. Furthermore, publicly available chat bots such as GPT-4 are capable of solving text-based CAPTCHA challenges with ease when prompted to do so \cite{malware-bytes}. Overall, the degree of complexity now required to make text-based CAPTCHAs unreadable to machines poses unnecessary difficulty to human participants, making them not only insecure but inefficient as well.
 
-\subsection{Artificial Intelligence}
-\label{sec:background-ai}
-
-In order to understand the role of artificial intelligence in CAPTCHA security, it is helpful to first examine the details of the tools involved in cracking it.
-
-\subsubsection{Convolutional Neural Networks}
-\label{sec:background-cnn}
-
-These AI models are typically employ to solve computer vision problems, or problems that task computers with identifying and analyzing objects or text in images. Due to their increasing effectiveness in recent years thanks to hardware developments, they are, to some extent, able to be trained and run on normal computers, posing a risk to web security applications that identify bots via image labeling problems.
-
-Regular neural networks are a type of computational model based on human neurons, designed to simulate how humans learn sophisticated concepts and form mental associations. They consist of interconnected layers of nodes, where numerical data is transmitted between each node and manipulated via some activation function, whose parameters are determined by weights that get adjusted through the learning process. CNNS are unique in that they typically take an image as input, and compute an output that classifies the image via hidden (intermediate) layers that perform processes known as convolution and pooling.
-
-\todo[inline, color=pink]{Todo: Explain convolution and pooling in some detail, maybe just enough to span the rest of this page. This is still something that I'm very unfamiliar with—maybe having an extra meeting just to discuss and explain this would help.}
-
-
-\subsubsection{Reinforcement Learning}
-\label{sec:background-rl}
-
-\todo[inline, color=pink]{I haven't done sufficient research on reinforcement learning to write much here, but it is definitely a priority.}
-
-
-\section{Modern reCAPTCHA Challenges}
+\subsection{Modern CAPTCHAs}
 \label{sec:modern-captchas}
 
-\todo[inline, color=pink]{Somewhere here, I need to include something about how reCAPTCHA was acquired by Google for clarity, though I'm not sure where to slot that in.}
+Since the development of text-based CAPTCHAs, other types of challenges have dominated the web. Some of these include image-based, audio-based, and spatial reasoning challenges. In particular, later versions of reCAPTCHA, developed after its acquisition by Google, provide more sophisticated means of assessing participants while reducing friction for users. ReCAPTCHA v2 contains image- and audio-based CAPTCHAs as part of its suite, while both v2 and v3 offer CAPTCHAs based on behavioral metrics. They reduce the burden of solving a challenge by collecting hidden data about the user's browser activity in the background, rather than presenting a direct challenge. If the user is scored to be a potential risk, they may be prompted to solve a different challenge, or denied access to the website entirely. Today, CAPTCHAs using behavioral metrics have largely replaced both text- and image-based CAPTCHAs, although many websites still use various other types of challenges, especially when the former provides a low-confidence score. Behavioral metrics are discussed further in Sections \ref{sec:recaptcha-v3} and \ref{sec:features}.
 
-As mentioned in section \ref{sec:background-captcha}, modern versions of reCAPTCHA, namely, v2 and v3, primarily depend on collecting user metrics to assess the risk of bot activity, while also providing an image labeling challenge in alternative cases. This section will first discuss in detail how the image labeling challenges are created and served to the user, then touch on what is known about the metric-based challenges, according to existing research.
+\section{Reinforcement Learning}
+\label{sec:reinforcement-learning}
 
-\subsection{Image Labeling}
-\label{sec:visual}
+Reinforcement learning (RL) is a paradigm in machine learning for training computational models that aim to interact with an environment by making decisions to further a goal. This concept has applications in a vast variety of fields. One example is in robotics, where a robot is given joints and limbs to move of its own accord, and may be tasked with developing motor control to walk a certain distance, or learn how to climb a ladder. Another application is in social media, where a model may be trained to recommend content to users via hashtags and engagement metrics.
 
-Though less commonly used now, image labeling CAPTCHAs are featured in reCAPTCHA v2, designed for accessibility on mobile browsers as an alternative to the previous text challenges. In these challenges, the user is typically presented with a single image split into multiple segments, and must identify the segments of the image that constitute a particular object, such as a stop light or a car. Alternatively, the challenge may contain several individual images of objects, presenting the user with the same prompt. 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{resources/reinforcement-learning.png}
+\caption{Block diagram modeling the basic principles of reinforcement learning \cite{tizhoosh}}
+\label{fig:rl}
+\end{figure}
 
-Image labeling CAPTCHA challenges are easily defeated by CNNs, (...), \textbf{(there will be more information here about how reCAPTCHA v2 still largely relies on metrics collected from user input rather than strictly from successfully identifying image contents, as this is important to discussing flaws of the research and may form a case for CAPTCHA still being secure by combining methods)}
+In all of these examples, the computer in an RL system acts as an agent seeking to learn optimal decisions influenced by rewards and punishments. Figure \ref{fig:rl} illustrates the dynamics of this system. The agent is either rewarded or punished for taking certain actions via a numeric score that represents its achievement. The agent accumulates this score over time through its decisions and states, seeking to maximize it however possible. Typically, the agent is initially unaware of which actions will lead it to a higher score, and makes these choices randomly. The probability associated with taking each action, called a \textit{policy}, is updated as the agent learns over iterations of this process.
 
-\todo[inline, color=pink]{I think I will need to find better sources on reCAPTCHA v2 in particular, or just drop it from the paper entirely. I'm struggling with narrowing down my sources on this part to ones that specifically discuss the Google Street View type of image CAPTCHA and instead either focus on text-based ones or different computer vision problems, which isn't really helping to follow this flow.}
+Mathematically, an RL system is modeled by a Markov decision process (MDP). An MDP is generally a tuple, denoted $(S, A, P, R)$. $S$ and $A$ respectively represent the set of states and actions that the agent can interface with, which may be discrete or continuous. $P$ is a matrix that describes the probability of each state $s$ leading to a new state $s'$ via action $a$, with $s, s' \in S$ and $a \in A$. Elements of $P$ are denoted as $P_a(s, s')$. Finally, $R$ is a matrix describing the reward (or perceived reward) associated with taking action $a$ to transition from $s$ to $s'$, with elements denoted as $R_a(s, s')$.
 
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=0.5\linewidth]{resources/v2.jpg}
-%\caption{An example of a CAPTCHA using Google Street View}
-%\label{fig:v2}
-%\end{figure}
-% I really want to add this figure as an example here but the project refuses to compile if I try to include it.
+In order to learn, the agent follows a \textit{policy function} $\pi(s)$, a mapping between states and actions that describes which actions to take depending on the agent's current state. The policy function is altered over time with the goal of finding a series of actions and states that maximizes the cumulative reward score.
+
+In some use cases, the agent may not be able to observe the states of its environment, and thus be unable to act according to its current state. In such cases, the agent learns through a Partially Observable MDP (POMDP), where it acts according to its own belief (probability) of being in certain states instead, which is also updated over time.
+
+The goal of solving a reCAPTCHA v3 challenge is to produce browsing habits that are convincingly human in nature, even when it is not known what behaviors exactly may contribute to this. Thus, an RL algorithm modeled by a POMDP can be used to bypass the security of reCAPTCHA v3. This is explored further in the research by Tsingenopoulos et al. \cite{tsingen}, discussed in Section \ref{sec:breaking}.
 
 
-\subsection{Behavioral Metrics}
-\label{sec:metrics}
+\section{reCAPTCHA v3}
+\label{sec:recaptcha-v3}
 
-Google's reCAPTCHA v2, first implemented in 2013, was the first tool to introduce an "invisible" CAPTCHA, a type of verification challenge that did not explicitly ask the user to solve a challenge to measure intelligence, but purely operated in the background and scored users based on browsing habits. This has been expanded on with reCAPTCHA v3, released in 2017. The tool regularly collects data as the user browses the web, returning a score ranging from 0 (highly likely to be a bot) to 1 (likely a human). While this type of challenge has been praised for reducing tedium resulting from CAPTCHA challenges for real users, many have criticized it for intruding on user privacy. \todo[inline, color=pink]{Not sure how relevant this last sentence is, or where to include it.} 
+As mentioned in section \ref{sec:modern-captchas}, the modern versions of reCAPTCHA, namely, v2 and v3, primarily base their security on collecting hidden metrics about a user's browsing activity to assess the risk of that user being a bot. This section will discuss how reCAPTCHA v3's ``invisible CAPTCHA'' challenge is implemented by web developers, with its inner workings obscured from the end user.
+
+\subsection{Workflow}
+\label{sec:workflow}
+
+ReCAPTCHA v3 is integrated as a third-party tool on a website, providing access to Google's API of the same name. Figure \ref{fig:v3} illustrates the reCAPTCHA v3 workflow in detail. The tool is first configured to hook onto interactive HTML and JavaScript components of the site, such as a ``checkout'' button on a shopping cart, in order to silently collect analytics about how users typically engage with the site over time. The API is invoked programmatically when a user interacts with a website component that reCAPTCHA v3 is bound to, sending a site key $(1)$ that identifies the website to the service. After considering the metrics, it returns a \texttt{g-recaptcha-response} token $(2)$ to be verified by the website on the back end $(3)$, in order to prevent the data from being affected by the client or end user. Once the website's server verifies the token with its own secret key $(4)$ provided by Google, it receives a discrete score value in the set $\{0.1, 0.3, 0.7, 0.9\}$ to the site's back end $(5)$ in JSON, a common file format for web data. A lower score means the user was deemed more likely to be a bot. The server can use this score to take any necessary actions, such as denying (or approving) the user's request, or prompting them to solve another challenge.
 
 \begin{figure}[h]
 \centering
@@ -226,46 +136,110 @@ Google's reCAPTCHA v2, first implemented in 2013, was the first tool to introduc
 \label{fig:v3}
 \end{figure}
 
-ReCAPTCHA v3 differs from v2's "invisible" challenge in that the user is never asked to check a box, but rather, it collects user data over time, and verification occurs either when the user clicks a button on a website that is bound to v3, or automatically invoked through some other action taken by the user. This verification is done through generating an encrypted token on the website's back end that contains the necessary metrics. This token is then sent to Google's servers, which return a response containing the user's score, whereupon the website can programmatically decide which actions to take. Figure \ref{fig:v3} illustrates this process in detail \cite{tsingen}.
+\subsection{Considerations}
+\label{sec:considerations}
 
-Since reCAPTCHA v3 is proprietary, not much is known about exactly which metrics the tool collects, or how they contribute to the overall score. Additionally, keeping this information confidential is important to protecting the security of the software, as knowledge of it could theoretically be used to engineer a perfectly undetectable bot. However, Tsingenopoulos et al. \cite{tsingen} identified, through analysis of the obfuscated source code, that a few of the main factors contributing to the score may include mouse movements, keyboard inputs and timings, and the presence of cookies on the browser. The researchers further note that ``security by obscurity is a fundamentally flawed approach,'' a common idiom in cryptography.
+Since reCAPTCHA v3 is proprietary, not much information is publicly known about exactly which metrics the tool collects in its analysis, or how they contribute to the overall score. Additionally, keeping this information confidential is important to protecting the security of the software, as knowledge of it could theoretically be used to engineer a perfectly undetectable bot. However, the researchers note that reCAPTCHA v2, which also integrated metrics challenges in its suite, previously had its source code de-obfuscated and published to GitHub\footnote{https://github.com/neuroradiology/InsidereCAPTCHA}, allowing researchers to gain insights into how data was being processed and sent to Google \cite{tsingen}. Similar procedures are most likely employed in reCAPTCHA v3, making it easier to begin probing it for the same details.
 
-\todo[inline, color=pink]{Again, I would like to insert this last sentence somewhere but doesn't really feel like a good spot exists.}
+Doing so is a more difficult task than it appears at first glance. Since the score returned by reCAPTCHA v3 is the only descriptive information available to the researchers, it is the only metric for judging progress towards breaking the scheme. The score itself has been indicated to contain noise through random variations in the tool's calculations, reflected in reCAPTCHA v2's source code, making it intentionally misleading and reducing its effectiveness for achieving this goal. Additionally, because the numeric output in the score is limited to one of only four numbers, as explained in Section \ref{sec:workflow}, training AI using the score is a challenge. This is because a model may be misled by the limited information given by the score. However, the researchers address this using a policy-based approach, focusing on a POMDP model, described further in Section \ref{sec:reinforcement-learning}.
 
-\section{Breaking Current CAPTCHA Schemes}
+A final concern worth noting here is the application of Kerckhoff's principle, which argues that secrecy is a fundamental point of weakness in cryptographic encryption schemes, and that they must be secure even when the workings of their components are public knowledge, except the private key used for encryption \cite{kerckhoff}. It is possible to argue that this notion to security systems as a whole, including reCAPTCHA v3 --- the ``security by obscurity'' approach of its design suggests that an attacker may be able to create a bot to perfectly evade detection should they have access to all or some of the exact methods used in the tool's calculations. However, it is important to clarify that Kerckhoff's principle in its literal sense does not apply to reCAPTCHA v3, because it is not a formal cryptographic protocol. 
+
+\section{Threat Model}
 \label{sec:breaking}
 
-The reCAPTCHA challenges discussed in section \ref{sec:modern-captchas} are highly imperfect, and prone to attacks by well-constructed artificial intelligence models. This section will focus specifically on the work by \textbf{(??? for section \ref{sec:v2})} and Tsingenopoulos et al. \cite{tsingen} to expose security vulnerabilities in the most widely used CAPTCHA schemes today.
+ReCAPTCHA v3 has potentially exploitable security flaws in its design, as discussed in Section \ref{sec:considerations}, due to its ``security by obscurity'' approach to CAPTCHA challenges and its practice of providing a score to website owners that may hint at how confident the tool is of a user being a bot. This section will cover the research of Tsingenopoulos et al. \cite{tsingen} to expose these insecurities in reCAPTCHA v3's design by training an RL agent to mimic organic browsing habits using the score provided by reCAPTCHA v3.
 
-\subsection{reCAPTCHA v2 and CNNs}
-\label{sec:v2}
+\subsection{Static and Dynamic Features}
+\label{sec:features}
 
-\todo[inline, color=pink]{I hope to show here that convolutional neural networks are good enough at computer vision problems to complete image CAPTCHA challenges, particularly those associated with reCAPTCHA v2. It may be fine if I have to pivot here, but would make the story a bit less cohesive.}
+Section \ref{sec:considerations} noted that, prior to the research by Tsingenopoulos et al. \cite{tsingen}, reCAPTCHA v2's source code was publicized, providing information about the metrics being collected by Google. Such metrics can be divided into two categories: \textit{static} and \textit{dynamic} features. 
 
-\subsection{reCAPTCHA v3 and RL}
-\label{sec:v3}
+Static features encompass aspects of browsing activity that the user does not have immediate control over. This includes information such as the presence of cookies in the browser, as well as the User-Agent request header. This is part of the request sent to reCAPTCHA v3 containing information that identifies the user, such as their browser, operating system, IP address, and device model. These features are less accessible to the CAPTCHA service if the user modifies or spoofs their data, such as by using a VPN or a private browser.
 
-\todo[inline, color=pink]{Heavily focused on the methods of Tsingenopoulos et al. but need to read more on this and finish the section on reinforcement learning. May also be worth going over in a meeting.}
+Dynamic features, on the other hand, refer to aspects of browsing activity that the user directly controls over the duration of their browsing session. This primarily refers to activity such as mouse movements, keyboard inputs, request submissions, and input delay. While navigating websites, naive bots may be more likely to exhibit clearly inorganic activity through these dynamic features. For example, a bot might type in a box at a words-per-minute (WPM) rate that is impossible for humans to achieve, or move the mouse in a perfectly straight line towards a button, then click on it with little to no delay.
 
-\section{Proposals to Improve CAPTCHAs}
+According to research done previously on reCAPTCHA v2, Google's metrics-based CAPTCHA challenges appear to be strongly biased in favor of users that exhibit strong static features, rewarding them with a higher score. In such cases where these CAPTCHAs are initially confident that the user is a human, dynamic features have a less noticeable impact on the score, even when the user exhibits dynamic features that are more bot-like in nature. In contrast, users that browse privately, with settings such as cookies disabled, they are initially more likely to be deemed a bot, and must prove their humanity through dynamic features. This is further supported by the results in Section \ref{sec:results}. With this information, the researchers in \cite{tsingen} sought primarily to assess how effective RL was for evading metric-based CAPTCHAs using dynamic features alone, having a bot start from a low score and convince reCAPTCHA v3 that it was human through its browsing habits.
+
+\subsection{Methodology}
+\label{sec:methodology}
+
+The researchers used reinforcement learning agents in an environment modeled by a POMDP (described in Section \ref{sec:reinforcement-learning}). Since reCAPTCHA v3 operates using information that is not visible to the agents and can only be estimated, one can say that the agents are unable to observe the states of their environment and must learn by observations and assumptions instead. The score returned by reCAPTCHA v3 acts as an ``oracle'' in the model --- the agents observe the decisions of reCAPTCHA v3 and make assumptions about how their actions might have produced those results, using them to learn even in a black-box environment.
+
+Because dynamic features encompass many variables that are difficult to accurately measure and account for, the researchers developed multiple different modes of operation for their RL model, with varying degrees of control over their inputs. The first agent, labeled \textit{Piecewise}, was a rudimentary approach, only being able to control mouse movements towards a target component in a linear, piecewise fashion. The second agent, \textit{Bezier}, was slightly more sophisticated, being able to control input delay and move the mouse in a curved fashion. The most complex agent, \textit{Abstract}, was given the capabilities of the previous two, in addition to typing and scrolling.
+
+The researchers conducted their experiments in a cascading manner, training and testing these agents on three unnamed websites. Website A was hosted by the researches, with the sole intention of hosting reCAPTCHA v3 and training their rudimentary models. \textit{Piecewise} was both trained and tested on this website, while \textit{Bezier} was only trained. 
+
+Website B was one that saw real web traffic, receiving hundreds of daily requests from users, and configured reCAPTCHA v3 with the consent of the researchers, giving them access to the score provided on the back end. This was used to test \textit{Bezier} and train \textit{Abstract}. 
+
+Finally, Website C was a much larger website that received thousands of daily requests, had already fully integrated reCAPTCHA v3 without assisting the researchers, and only allowing them to observe whether the agent's requests were blocked. This website was used only to test \textit{Abstract}, with the intention of placing it in a typical user scenario, a black-box environment with no information about reCAPTCHA v3's evaluations.
+
+\subsection{Results}
+\label{sec:results}
+
+Data from the research supports the hypothesis that RL can be employed to bypass the tool's security with reasonable consistency by learning from the score alone, even when initially flagged as a potential bot.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{resources/website-b}
+\caption{Average cumulative score over the period of evaluation for Website B \cite{tsingen}}
+\label{fig:b}
+\end{figure}
+
+Figure \ref{fig:b} depicts the progress of both the \textit{Bezier} and \textit{Abstract} agents over time on Website B. Since \textit{Bezier} was in testing mode rather than learning, its parameters were no longer being updated, and therefore likely saw considerable score depletion over time due to repetitive inputs identified by reCAPTCHA v3, although the agent still performed well out of the box. Meanwhile, \textit{Abstract} demonstrated considerable progress in its learning over time, improving from its initial average score of around $0.45$ to around $0.65$, making it promising for testing. The researchers also deployed a baseline (naive) agent, distinct from the \textit{Piecewise} agent, that did not learn and only acted as a typical bot. While this naive approach performed worse than the RL-based approaches, it still consistently achieved an average score above $0.5$ on Website B, which is the default threshold set by reCAPTCHA v3 to distinguish bots from humans. This is particularly concerning, as it implies that even a naive approach is sufficient to bypass the tool when static features are present in the browser.
+
+On Website A, used to test the \textit{Abstract} agent, the researchers did not have access to the score provided by reCAPTCHA v3, as they were not responsible for hosting the tool. To that end, the agent was assessed on its evasion rate instead --- whether or not it successfully fooled reCAPTCHA v3. The results, depicted in Table \ref{tab:c}, are striking. $S_H$ denotes high starting sessions, or browsing sessions where the agent was initially flagged as a human based on the static data in the User-Agent request header, while $S_L$ denotes low starting sessions. Across low-starting sessions, there is a clear gap between the naive algorithm and the \textit{Abstract} agent's performance, with \textit{Abstract} passing as a human across the majority of browser requests. Its performance only improved further in high-starting sessions, almost perfectly evading detection in the vast majority of cases.
+
+\begin{table}
+  \begin{tabular}{ccl}
+    \toprule
+    &\textit{Baseline}&\textit{Abstract}\\
+    \midrule
+    $S_H$ & 84.3\% & 99.6\%\\
+    $S_L$ & 20.8\% & 70.1\%\\
+  \bottomrule
+  \end{tabular}
+  \caption{Evasion Rates for Website C \cite{tsingen}}
+  \label{tab:c}
+\end{table}
+
+\section{Analysis}
+\label{sec:analysis}
+
+\subsection{Implications}
+\label{sec:implications}
+
+The results from \cite{tsingen} show a vulnerability in reCAPTCHA v3, largely due to the score value that is provided to website owners when user requests are made. Using this score, the researchers were able to train an RL model capable of mimicking human browsing habits without additional feedback. This suggests that CAPTCHAs using behavioral metrics may be insecure if they rely on such a quantifiable way of determining bot traffic. While this score value is an essential feature of reCAPTCHA v3, not all invisible CAPTCHA challenges provide a score. Some, such as Cloudflare's Turnstile, send only a Boolean ``pass'' or ``fail'' response to websites.
+
+However, a measurable CAPTCHA score may come with its own advantages over a simple ``pass'' or ``fail.'' The score allows website owners to control how potential unwanted traffic is handled, especially considering that the default threshold of $0.5$ may not be sufficient, a claim supported by Figure \ref{fig:b} and Table \ref{tab:c}. If a similar metric is used by CAPTCHA frameworks that invariably determine this threshold for the website, it limits how strict the tool can be, potentially allowing more unwanted traffic, rather than preventing it.
+
+Additionally, any behavioral metrics CAPTCHAs may be at risk, regardless of whether or not they provide website owners with a score. If an RL model can be trained to bypass reCAPTCHA v3 with considerable consistency, particularly when static features contribute strongly to the score, the same model can likely be deployed on other websites using different CAPTCHA tools taking similar metrics. In fact, later research conducted by Sateur et al. \cite{sateur} demonstrated this with Cloudflare's Turnstile.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+While the findings in Section \ref{sec:breaking} are striking, the research is not without its limitations. Since the study focuses almost exclusively on reCAPTCHA v3, it is difficult to exactly determine how it may impact other CAPTCHA tools. However, behavioral metrics-based CAPTCHAs largely work on the same principles of measuring static and dynamic features, so the possibility of using a similar RL model to break other tools seems promising for future studies.
+
+As mentioned in Section \ref{sec:considerations}, reCAPTCHA v3 likely introduces random noise in its score calculation to deter machine learning. This means that the true meaning of the score for assessing the RL agent's progress is less clear than it would be otherwise, and it is a highly imperfect metric for knowing what the tool is measuring behind the scenes. It is likely that the RL agents in the study still could have learned more and achieved greater evasion consistency, however, they were limited quite heavily in their activity, and could not remain active for long periods of time. This is because overly frequent or repetitive requests are known to have a strong negative impact on reCAPTCHA v3's score, as attackers commonly do this to send spam or overload the website's servers with fake activity.
+
+Finally, the discussion here would benefit from further studies observing how reCAPTCHA v3 has changed over time, particularly because the tool is, itself, evolutionary in nature. Google is known to collect user data from reCAPTCHA v3 to improve the service, likely using it to train a ``defender'' model that seeks to correctly identify bot traffic, through a process known as adversarial learning. Since reCAPTCHA v3 changes over time, it is difficult to determine how exactly the results of \cite{tsingen}, conducted in 2022, would be applicable against the tool today. However, it is worth noting that the tool was previously studied using a similar approach, with similar alarming results achieved \cite{akrout}.
+
+\subsection{Ethical Considerations}
+\label{sec:ethical-considerations}
+
+An important part of ethical hacking is responsible disclosure, addressing newly-discovered security concerns by notifying the developers of the security feature at risk, and ensuring that a proper response is received or a fix is implemented before the vulnerability is made known to the public. Tsingenopoulous et al. \cite{tsingen} made sure Google was aware of the risks of reCAPTCHA v3 and their RL model by opening a support ticket. The issue was marked as ``intended behavior/won't fix,'' likely due to how reCAPTCHA v3 is designed to be able to combat these threats over time, as mentioned in Section \ref{sec:limitations}.
+
+Behavioral metrics-based CAPTCHAs have been criticized by consumers for being invasive of user privacy, with the tools often being likened to spyware. To give users more rights to how their personal data is used online, the European Union passed the General Data Protection Regulation (GDPR) in 2018, which requires websites to obtain user consent before using cookies or tracking any data. ReCAPTCHA v3 is compliant with the GDPR. Google claims that the data collected by the service is not used for advertising, and is only used for providing and maintaining the service \cite{google}.
 
 \section{Conclusion}
 
-\todo[inline, color=pink]{At this point I'm struggling to produce more content for the paper. This is a mixture of being burnt out and not fully understanding the material yet, so I will submit what I have and be done with it. Apologies that I keep consistently submitting work that just barely meets the requirements.}
-
+CAPTCHA tools are an integral yet often overlooked part of web security, as they protect millions of websites from malicious automated traffic in a time dominated by the development of AI. Despite this, they face scrutiny today, with mounting public concern regarding their usefulness. This paper investigated current forms of CAPTCHA that rely on behavior metrics and assessed their effectiveness against developments in AI tools, and found that they were, in their current form, somewhat lacking in necessary security quality. Yet still, being a tool designed to evolve over time, CAPTCHAs may continue to change and lead efforts to protect the internet, while also being invaluable for measuring progress in the rapidly-growing field of AI. Because of this, it is important to be aware of how they could be improved for the future through techniques such as adversarial learning, or integrating more complex yet non-invasive CAPTCHA challenges, such as interactive puzzles.
 
 \begin{acks}
-I sincerely thank Dr. Elena Machkasova for her invaluable work in not only instructing the fall 2025 senior seminar course, but also guiding me through the writing process and helping me stay motivated during this challenging semester. I also thank the University of Minnesota Morris for providing me the opportunity to conduct this literature review and present my work to my peers.
+I sincerely thank Dr. Elena Machkasova for her work in not only instructing the Fall 2025 Senior Seminar course, but also guiding me through this process. I also thank Melissa Helgeson, Pierce Richards and Peter Dolan for providing helpful feedback on this paper through the drafting process, and I appreciate the University of Minnesota Morris for providing me the opportunity to conduct this work and present it to my peers.
 \end{acks}
 
-%%
-%% The next two lines define the bibliography style to be used, and
-%% the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{bibfile}
-
-
+\bibliography{Sample_paper/references}
 \end{document}
 \endinput
-%%
-%% End of file `sample-sigplan.tex'.
